@@ -1,0 +1,255 @@
+/* Base styles for light and dark modes */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1f0036, #120b33, #03001e);
+    background-size: 300% 300%;
+    animation: gradientShift 20s ease infinite;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Dark and light mode adjustments */
+  .todo-container {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    width: 90%;
+    max-width: 600px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+  }
+  
+  .todo-container.light {
+    background: rgba(255, 255, 255, 0.1);
+    color: black;
+  }
+  
+  .todo-container.dark {
+    background: rgba(0, 0, 0, 0.1);
+    color: white;
+  }
+  
+  .todo-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .todo-input-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .todo-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    color: white;
+    outline: none;
+    font-size: 1rem;
+    transition: background 0.3s, box-shadow 0.3s, border 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .todo-input.light {
+    background: rgba(0, 0, 0, 0.1);
+    color: black;
+  }
+  
+  .todo-input.dark {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  .todo-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .todo-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  }
+  
+  .todo-input:hover {
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+  
+  .todo-add-button {
+    background-color: #8b5cf6;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+  }
+  
+  .todo-add-button.light {
+    background-color: #a78bfa;
+  }
+  
+  .todo-add-button.dark {
+    background-color: #7c3aed;
+  }
+  
+  .todo-add-button:hover {
+    background-color: #7c3aed;
+    transform: scale(1.05);
+  }
+  
+  .filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .filter-button {
+    padding: 0.4rem 1rem;
+    border-radius: 1rem;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+  
+  .filter-button.light {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  .filter-button.dark {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .filter-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  .filter-button.active {
+    background-color: #8b5cf6;
+  }
+  
+  .todo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .todo-item {
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 1rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+  }
+  
+  .todo-item.light {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  .todo-item.dark {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .todo-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  .todo-text {
+    font-size: 1.1rem;
+    transition: 0.3s;
+  }
+  
+  .todo-text.completed {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .delete-button {
+    background: none;
+    border: none;
+    color: #f87171;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .delete-button:hover {
+    color: #ef4444;
+  }
+  
+  /* Dark and light mode button styles */
+  .custom-button {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+  }
+  .dark-mode-toggle {
+    margin: 1rem 0; /* Adds space above and below the button */
+    padding: 0.6rem 1.2rem; /* Adds padding inside the button for a more comfortable size */
+    font-size: 13px; /* Increases the font size for better readability */
+    background-color: #ce49c7; /* Light background for the button */
+    border: none;
+    border-radius: 8px; /* Rounds the corners of the button */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Adds a smooth transition */
+  }
+    
+  .dark-mode-toggle:hover {
+    background-color: #ddd; /* Slightly darker background on hover */
+    transform: scale(1.05); /* Slight scale effect on hover */
+  }
+  
+  .dark-mode-toggle:focus {
+    outline: none; /* Removes the default focus outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Adds a subtle shadow for focus */
+  }
+  
+  
+  .custom-button:hover {
+    background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+  }
+  
+  
+  @media (max-width: 480px) {
+    .todo-input,
+    .todo-add-button {
+      width: 100%;
+    }
+  }
+  
