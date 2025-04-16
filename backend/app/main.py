@@ -13,8 +13,10 @@ Base.metadata.create_all(bind=engine)
 # Initialize FastAPI app
 app = FastAPI()
 
-# Allow CORS for localhost (React frontend)
-origins = ["http://localhost:3000"]
+# Allow CORS for localhost (React frontend) and GitHub Pages
+origins = ["http://localhost:3000",
+           "https://krisgwynelan.github.io", 
+]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -53,6 +55,9 @@ def update(todo_id: int, todo: schemas.ToDoUpdate, db: Session = Depends(get_db)
 # Delete a todo by ID
 @app.delete("/todos/{todo_id}")
 def delete(todo_id: int, db: Session = Depends(get_db)):
+    todo = db.query(models.ToDo).filter(models.ToDo.id == todo_id).first()
+    if todo is None:
+        raise HTTPException(status_code=404, detail="Todo not found")
     crud.delete_todo(db, todo_id)
     return {"message": f"Todo with ID {todo_id} deleted successfully."}
 
@@ -62,10 +67,43 @@ def filter_by_status(status: str, db: Session = Depends(get_db)):
     if status not in ["completed", "pending"]:
         raise HTTPException(status_code=400, detail="Invalid status. Use 'completed' or 'pending'.")
     
-    todos = crud.get_all_todos(db)
+    # Query the database to filter based on status
     if status == "completed":
-        return [t for t in todos if t.completed]
+        return crud.get_todos_by_status(db, completed=True)
     elif status == "pending":
-        return [t for t in todos if not t.completed]
+        return crud.get_todos_by_status(db, completed=False)
+
+# CRUD methods for ToDo operations (could be in crud.py)
+
+def get_all_todos(db: Session):
+    return db.query(models.ToDo).all()
+
+def create_todo(db: Session, todo: schemas.ToDoCreate):
+    db_todo = models.ToDo(**todo.dict())
+    db.add(db_todo)
+    db.commit()
+    db.refresh(db_todo)
+    return db_todo
+
+def update_todo(db: Session, todo_id: int, todo: schemas.ToDoUpdate):
+    db_todo = db.query(models.ToDo).filter(models.ToDo.id == todo_id).first()
+    if db_todo is None:
+        raise HTTPException(status_code=404, detail="Todo not found")
     
-    return todos
+    for key, value in todo.dict(exclude_unset=True).items():
+        setattr(db_todo, key, value)
+    
+    db.commit()
+    db.refresh(db_todo)
+    return db_todo
+
+def delete_todo(db: Session, todo_id: int):
+    db_todo = db.query(models.ToDo).filter(models.ToDo.id == todo_id).first()
+    if db_todo is None:
+        raise HTTPException(status_code=404, detail="Todo not found")
+    
+    db.delete(db_todo)
+    db.commit()
+
+def get_todos_by_status(db: Session, completed: bool):
+    return db.query(models.ToDo).filter(models.ToDo.completed == completed).all()
